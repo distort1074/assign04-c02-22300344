@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신청 내용 확인 | 웹 개발 동아리</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 16px; background: #f3f6fa; color: #243247; font-family: sans-serif; line-height: 1.6; }
+    main { max-width: 720px; margin: auto; padding: 32px; background: white; border-radius: 16px; }
+    h1 { margin-top: 0; font-size: 1.8rem; }
+    h2 { margin: 0; font-size: 1.15rem; }
+    section { margin: 24px 0; padding: 20px; border: 1px solid #cbd5e1; border-radius: 8px; }
+    dl { margin-bottom: 0; }
+    .row { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid #e2e8f0; }
+    dt { font-weight: bold; }
+    dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .muted { color: #526077; }
+    .swatch { display: inline-block; width: 22px; height: 22px; margin-right: 8px; border: 1px solid #94a3b8; border-radius: 4px; vertical-align: middle; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    a, button { display: inline-block; padding: 11px 20px; border: 1px solid #285cc4; border-radius: 6px; background: white; color: #285cc4; font: inherit; text-decoration: none; cursor: pointer; }
+    a { background: #285cc4; color: white; }
+    :focus-visible { outline: 3px solid #285cc4; outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 480px) { main { padding: 20px; } section { padding: 14px; } .row { grid-template-columns: 1fr; gap: 4px; } }
+    @media print { body, main { padding: 0; background: white; } .actions { display: none; } section { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p>웹 개발 동아리 · 신청 내용 뷰어</p>
+      <h1>작성한 내용을 확인해 주세요</h1>
+      <p class="muted">폼에서 전달한 입력값을 보여주는 연습용 확인 화면입니다. 실제 동아리 가입이 접수되는 것은 아닙니다.</p>
+    </header>
+    <p id="empty" hidden>아직 전달된 입력 내용이 없습니다. 신청서를 먼저 작성해 주세요.</p>
+    <div id="details" hidden>
+      <section aria-labelledby="basic-title">
+        <h2 id="basic-title">기본 정보</h2>
+        <dl id="basic"></dl>
+      </section>
+      <section aria-labelledby="activity-title">
+        <h2 id="activity-title">활동 희망 사항</h2>
+        <dl id="activity"></dl>
+      </section>
+    </div>
+    <noscript><p>입력 내용을 보려면 브라우저의 JavaScript를 활성화해 주세요.</p></noscript>
+    <div class="actions">
+      <a href="index.html">신청서 작성하기</a>
+      <button id="print" type="button" hidden>인쇄 / PDF 저장</button>
+    </div>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const labels = {
+      major: { computer: '컴퓨터공학', software: '소프트웨어학', electronics: '전자공학', business: '경영학', design: '디자인학', other: '기타' },
+      participation: { online: '온라인', offline: '오프라인', hybrid: '혼합' },
+      interests: { html: 'HTML', css: 'CSS', javascript: 'JavaScript', backend: '백엔드' }
+    };
+    const groups = {
+      basic: [['student_name', '이름'], ['student_id', '학번'], ['email', '이메일'], ['phone', '연락처'], ['birthday', '생년월일'], ['major', '전공'], ['grade', '학년']],
+      activity: [['participation', '참여 방식'], ['interests', '관심 분야'], ['start_date', '활동 시작 희망일'], ['team_color', '선호하는 팀 색상'], ['language', '배우고 싶은 언어'], ['introduction', '자기소개 및 지원 동기']]
+    };
+    const hasData = Object.values(groups).flat().some(([key]) => params.getAll(key).some(value => value.trim()));
+    document.getElementById('empty').hidden = hasData;
+    document.getElementById('details').hidden = !hasData;
+    document.getElementById('print').hidden = !hasData;
+    if (hasData) {
+      for (const [group, fields] of Object.entries(groups)) {
+        for (const [key, title] of fields) {
+          const row = document.createElement('div');
+          row.className = 'row';
+          const term = document.createElement('dt');
+          term.textContent = title;
+          const value = document.createElement('dd');
+          const values = params.getAll(key).filter(item => item.trim());
+          value.textContent = values.map(item => {
+            if (labels[key] && Object.hasOwn(labels[key], item)) return labels[key][item];
+            if (key === 'grade') return item + '학년';
+            return item;
+          }).join(', ') || '미입력';
+          if (!values.length) value.className = 'muted';
+          if (key === 'team_color' && /^#[0-9a-f]{6}$/i.test(values[0] || '')) {
+            const swatch = document.createElement('span');
+            swatch.className = 'swatch';
+            swatch.style.backgroundColor = values[0];
+            swatch.setAttribute('aria-hidden', 'true');
+            value.prepend(swatch);
+          }
+          row.append(term, value);
+          document.getElementById(group).append(row);
+        }
+      }
+    }
+    document.getElementById('print').addEventListener('click', () => window.print());
+  </script>
+</body>
+</html>

@@ -26,7 +26,6 @@
     button { padding: 11px 20px; border: 1px solid #285cc4; border-radius: 6px; font: inherit; cursor: pointer; }
     button[type="submit"] { background: #285cc4; color: white; }
     button[type="reset"] { background: white; color: #285cc4; }
-    #result { color: #17613d; }
     footer { margin-top: 24px; font-size: .9rem; }
     @media (max-width: 480px) { main { padding: 20px; } fieldset { padding: 14px; } }
   </style>
@@ -37,11 +36,11 @@
       <p>STEP 2 · Form Tag 연습</p>
       <h1>웹 개발 동아리 가입 신청서</h1>
       <p>관심 분야와 활동 희망 사항을 작성해 주세요. 별표(*) 항목은 필수입니다.</p>
-      <small>HTML 폼 연습용입니다. 예시 정보를 입력하세요. 입력 내용은 서버에 전송하거나 저장하지 않습니다.</small>
+      <small>HTML 폼 연습용입니다. 예시 정보를 입력하세요. 입력 완료를 누르면 작성한 내용을 확인하는 화면으로 이동합니다. 입력값은 확인 화면의 URL에 포함됩니다.</small>
     </header>
 
     <!-- name은 전송할 항목의 이름, id는 label과 연결할 식별자입니다. -->
-    <form id="club-form" action="#" method="get">
+    <form id="club-form" action="application-viewer.html" method="get">
       <fieldset>
         <legend>기본 정보</legend>
         <div class="field">
@@ -131,24 +130,8 @@
 
       <button type="submit">입력 완료</button>
       <button type="reset">다시 작성</button>
-      <p id="result" role="status"></p>
     </form>
     <footer>참고: <a href="https://www.w3schools.com/html/html_forms.asp" target="_blank" rel="noopener noreferrer">W3Schools HTML Forms</a></footer>
   </main>
-  <script>
-    // 브라우저의 기본 유효성 검사 후 실제 전송 대신 완료 메시지를 표시합니다.
-    const form = document.getElementById('club-form');
-    const result = document.getElementById('result');
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      result.textContent = '입력 확인이 완료되었습니다. 연습용으로, 서버에 전송되지 않았습니다.';
-    });
-    form.addEventListener('reset', function () {
-      result.textContent = '';
-    });
-    form.addEventListener('input', function () {
-      result.textContent = '';
-    });
-  </script>
 </body>
 </html>
