@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Tag 연습 | 동아리 가입 신청서</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 16px; background: #f3f6fa; color: #243247; font-family: sans-serif; line-height: 1.6; }
+    main { max-width: 720px; margin: auto; padding: 32px; background: white; border-radius: 16px; }
+    h1 { margin-top: 0; font-size: 1.8rem; }
+    fieldset { min-width: 0; margin: 24px 0; padding: 20px; border: 1px solid #cbd5e1; border-radius: 8px; }
+    legend { padding: 0 8px; font-weight: bold; }
+    .field { margin-bottom: 20px; }
+    .field:last-child { margin-bottom: 0; }
+    .field > label { display: block; margin-bottom: 6px; font-weight: bold; }
+    input:not([type="radio"]):not([type="checkbox"]):not([type="color"]), select, textarea {
+      width: 100%; padding: 10px; border: 1px solid #94a3b8; border-radius: 5px; font: inherit;
+    }
+    textarea { resize: vertical; }
+    input[type="color"] { width: 80px; height: 40px; }
+    .choices label { display: inline-block; margin: 4px 16px 4px 0; }
+    input, button { accent-color: #285cc4; }
+    :focus-visible { outline: 3px solid #285cc4; outline-offset: 3px; }
+    small { display: block; color: #526077; }
+    button { padding: 11px 20px; border: 1px solid #285cc4; border-radius: 6px; font: inherit; cursor: pointer; }
+    button[type="submit"] { background: #285cc4; color: white; }
+    button[type="reset"] { background: white; color: #285cc4; }
+    #result { color: #17613d; }
+    footer { margin-top: 24px; font-size: .9rem; }
+    @media (max-width: 480px) { main { padding: 20px; } fieldset { padding: 14px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p>STEP 2 · Form Tag 연습</p>
+      <h1>웹 개발 동아리 가입 신청서</h1>
+      <p>관심 분야와 활동 희망 사항을 작성해 주세요. 별표(*) 항목은 필수입니다.</p>
+      <small>HTML 폼 연습용입니다. 예시 정보를 입력하세요. 입력 내용은 서버에 전송하거나 저장하지 않습니다.</small>
+    </header>
+
+    <!-- name은 전송할 항목의 이름, id는 label과 연결할 식별자입니다. -->
+    <form id="club-form" action="#" method="get">
+      <fieldset>
+        <legend>기본 정보</legend>
+        <div class="field">
+          <label for="student-name">1. 이름 *</label>
+          <input type="text" id="student-name" name="student_name" placeholder="홍길동" maxlength="30" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="student-id">2. 학번 *</label>
+          <input type="text" id="student-id" name="student_id" placeholder="20260001" pattern="[0-9]{8}" maxlength="8" inputmode="numeric" aria-describedby="id-help" required>
+          <small id="id-help">숫자 8자리로 입력하세요.</small>
+        </div>
+        <div class="field">
+          <label for="email">3. 이메일 *</label>
+          <input type="email" id="email" name="email" placeholder="student@example.com" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">4. 연락처</label>
+          <input type="tel" id="phone" name="phone" placeholder="010-1234-5678" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="birthday">5. 생년월일</label>
+          <input type="date" id="birthday" name="birthday" autocomplete="bday">
+        </div>
+        <div class="field">
+          <label for="major">6. 전공 *</label>
+          <select id="major" name="major" required>
+            <option value="" disabled selected>전공을 선택하세요</option>
+            <optgroup label="공학 계열">
+              <option value="computer">컴퓨터공학</option>
+              <option value="software">소프트웨어학</option>
+              <option value="electronics">전자공학</option>
+            </optgroup>
+            <optgroup label="인문·사회·예술 계열">
+              <option value="business">경영학</option>
+              <option value="design">디자인학</option>
+              <option value="other">기타</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field">
+          <label for="grade">7. 학년 *</label>
+          <input type="number" id="grade" name="grade" min="1" max="6" step="1" placeholder="1" required>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>활동 희망 사항</legend>
+        <!-- 같은 name을 가진 radio는 하나만 선택할 수 있습니다. -->
+        <fieldset class="choices">
+          <legend>8. 참여 방식 *</legend>
+          <label for="online"><input type="radio" id="online" name="participation" value="online" required> 온라인</label>
+          <label for="offline"><input type="radio" id="offline" name="participation" value="offline"> 오프라인</label>
+          <label for="hybrid"><input type="radio" id="hybrid" name="participation" value="hybrid"> 혼합</label>
+        </fieldset>
+        <!-- checkbox는 여러 항목을 동시에 선택할 수 있습니다. -->
+        <fieldset class="choices">
+          <legend>9. 관심 분야 (복수 선택)</legend>
+          <label for="html"><input type="checkbox" id="html" name="interests" value="html"> HTML</label>
+          <label for="css"><input type="checkbox" id="css" name="interests" value="css"> CSS</label>
+          <label for="javascript"><input type="checkbox" id="javascript" name="interests" value="javascript"> JavaScript</label>
+          <label for="backend"><input type="checkbox" id="backend" name="interests" value="backend"> 백엔드</label>
+        </fieldset>
+        <div class="field">
+          <label for="start-date">10. 활동 시작 희망일 *</label>
+          <input type="date" id="start-date" name="start_date" required>
+        </div>
+        <div class="field">
+          <label for="color">11. 선호하는 팀 색상</label>
+          <input type="color" id="color" name="team_color" value="#285cc4">
+        </div>
+        <div class="field">
+          <label for="language">12. 배우고 싶은 프로그래밍 언어</label>
+          <input type="text" id="language" name="language" list="languages" placeholder="목록에서 선택하거나 직접 입력">
+          <datalist id="languages">
+            <option value="JavaScript"></option>
+            <option value="Python"></option>
+            <option value="Java"></option>
+            <option value="C++"></option>
+          </datalist>
+        </div>
+        <div class="field">
+          <label for="introduction">13. 자기소개 및 지원 동기 *</label>
+          <textarea id="introduction" name="introduction" rows="5" minlength="10" maxlength="500" placeholder="지원 동기를 10자 이상 작성해 주세요." aria-describedby="intro-help" required></textarea>
+          <small id="intro-help">10~500자로 작성하세요.</small>
+        </div>
+      </fieldset>
+
+      <button type="submit">입력 완료</button>
+      <button type="reset">다시 작성</button>
+      <p id="result" role="status"></p>
+    </form>
+    <footer>참고: <a href="https://www.w3schools.com/html/html_forms.asp" target="_blank" rel="noopener noreferrer">W3Schools HTML Forms</a></footer>
+  </main>
+  <script>
+    // 브라우저의 기본 유효성 검사 후 실제 전송 대신 완료 메시지를 표시합니다.
+    const form = document.getElementById('club-form');
+    const result = document.getElementById('result');
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      result.textContent = '입력 확인이 완료되었습니다. 연습용으로, 서버에 전송되지 않았습니다.';
+    });
+    form.addEventListener('reset', function () {
+      result.textContent = '';
+    });
+    form.addEventListener('input', function () {
+      result.textContent = '';
+    });
+  </script>
+</body>
+</html>
