@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>주문서 | CSS Form 실습</title>
+  <link rel="stylesheet" href="form.css">
+  <script src="js/form.js" defer></script>
+</head>
+<body>
+  <header class="page-header">
+    <a href="index.html">과제 4 · 시작 페이지</a>
+    <nav aria-label="실습 페이지">
+      <a href="form1.html">HTML 기본</a>
+      <a href="form1_css.html">CSS 적용</a>
+    </nav>
+  </header>
+  <main>
+    <p class="eyebrow">ASSIGNMENT 2-2 · HTML FORM &amp; CSS</p>
+    <h1>책을 만나는 다음 단계</h1>
+    <p class="intro">주문 정보를 입력해 주세요. * 표시는 필수 항목입니다.</p>
+    <p>Form 실습용 페이지로 실제 주문이나 결제는 진행되지 않습니다. 예시 정보를 입력하세요.</p>
+    <div class="checkout-layout">
+      <form id="checkout-form" action="#result" method="post">
+        <fieldset>
+          <legend>01 · 주문자와 배송지</legend>
+          <div class="fields">
+            <div class="field"><label for="first-name">이름 *</label><input type="text" id="first-name" name="firstName" autocomplete="given-name" maxlength="40" required></div>
+            <div class="field"><label for="last-name">성 *</label><input type="text" id="last-name" name="lastName" autocomplete="family-name" maxlength="40" required></div>
+            <div class="field"><label for="username">사용자 이름 *</label><input type="text" id="username" name="username" autocomplete="username" minlength="2" maxlength="30" required></div>
+            <div class="field"><label for="email">이메일 *</label><input type="email" id="email" name="email" autocomplete="email" placeholder="reader@example.com" required></div>
+            <div class="field wide"><label for="address">주소 *</label><input type="text" id="address" name="address" autocomplete="address-line1" placeholder="도로명과 건물 번호" required></div>
+            <div class="field wide"><label for="address-detail">상세 주소 (선택)</label><input type="text" id="address-detail" name="addressDetail" autocomplete="address-line2"></div>
+            <div class="field"><label for="country">국가 *</label><select id="country" name="country" autocomplete="country-name" required><option value="">선택하세요</option><option value="KR">대한민국</option></select></div>
+            <div class="field"><label for="region">지역 *</label><select id="region" name="region" autocomplete="address-level1" required><option value="">선택하세요</option><optgroup label="특별시·광역시"><option>서울</option><option>부산</option><option>대구</option><option>인천</option><option>광주</option><option>대전</option><option>울산</option></optgroup><optgroup label="특별자치시·도"><option>세종</option><option>경기</option><option>강원</option><option>충북</option><option>충남</option><option>전북</option><option>전남</option><option>경북</option><option>경남</option><option>제주</option></optgroup></select></div>
+            <div class="field"><label for="postal-code">우편번호 *</label><input type="text" id="postal-code" name="postalCode" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" title="숫자 5자리를 입력하세요" required></div>
+            <div class="field"><label for="delivery-date">배송 희망일 *</label><input type="date" id="delivery-date" name="deliveryDate" required></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>02 · 배송 옵션</legend>
+          <p class="choice"><input type="checkbox" id="same-address" name="sameAddress" value="yes" checked><label for="same-address">청구지와 배송지가 같습니다.</label></p>
+          <p class="choice"><input type="checkbox" id="gift-wrap" name="giftWrap" value="yes"><label for="gift-wrap">무료 선물 포장을 요청합니다.</label></p>
+          <div class="fields">
+            <div class="field"><label for="wrap-color">포장 색상</label><input type="color" id="wrap-color" name="wrapColor" value="#23654d"></div>
+            <div class="field"><label for="delivery-place">수령 장소 (선택)</label><input type="text" id="delivery-place" name="deliveryPlace" list="places" placeholder="선택하거나 직접 입력"><datalist id="places"><option value="문 앞"><option value="경비실"><option value="직접 수령"></datalist></div>
+            <div class="field wide"><label for="memo">배송 요청사항 (선택)</label><textarea id="memo" name="memo" rows="4" maxlength="300" placeholder="300자 이내로 입력하세요"></textarea></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>03 · 결제 방법 *</legend>
+          <p class="choice"><input type="radio" id="credit" name="payment" value="credit" required checked><label for="credit">신용카드</label></p>
+          <p class="choice"><input type="radio" id="debit" name="payment" value="debit"><label for="debit">체크카드</label></p>
+          <p class="choice"><input type="radio" id="transfer" name="payment" value="transfer"><label for="transfer">계좌이체</label></p>
+          <p class="hint">결제 방법 선택만 연습하며 카드 정보는 입력받지 않습니다.</p>
+        </fieldset>
+        <div class="actions"><button type="submit">입력 내용 확인하기</button><button type="reset" class="secondary">초기화</button></div>
+        <p id="result" role="status" tabindex="-1"></p>
+        <noscript>입력 확인 기능을 사용하려면 JavaScript를 활성화하세요.</noscript>
+      </form>
+      <aside aria-labelledby="cart-title">
+        <h2 id="cart-title">주문 요약 <span class="badge">3</span></h2>
+        <ul class="cart">
+          <li><span>HTML 시작하기<small>웹의 구조를 배우는 첫걸음</small></span><strong>12,000원</strong></li>
+          <li><span>CSS 노트<small>직접 만드는 나만의 스타일</small></span><strong>8,000원</strong></li>
+          <li><span>독서 기록장<small>읽고 남기는 작은 습관</small></span><strong>5,000원</strong></li>
+          <li class="total"><span>합계</span><strong>25,000원</strong></li>
+        </ul>
+        <p class="hint">배송비와 선물 포장은 무료입니다.</p>
+      </aside>
+    </div>
+  </main>
+  <footer>
+    <p>배산 · 22300344 · Open Source Studio 02분반</p>
+    <p>Clone Coding 원본: <a href="https://getbootstrap.com/docs/5.2/examples/checkout/">Bootstrap 5.2 Checkout</a></p>
+  </footer>
+</body>
+</html>
